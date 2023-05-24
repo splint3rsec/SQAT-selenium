@@ -15,8 +15,6 @@ class MainPage extends PageBase {
 
     // By objects
     private By footerBy = By.xpath("//div[@class='css-39ullc-Bottom e15zdyoh3']/span");
-    // private By emailBy = By.id("email");
-    // private By passwordBy = By.id("password");
 
     // Main Page
     public MainPage(WebDriver driver) {

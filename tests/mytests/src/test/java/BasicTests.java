@@ -44,7 +44,7 @@ public class BasicTests {
     public WebDriver driver;
     private By emailBy = By.id("email");
     private By passwordBy = By.id("password");
-    private By loginBy = By.xpath("//form[@class='css-3n8yix-StyledForm e1h04xtc0']//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
+    private By loginBy = By.xpath("//button[normalize-space()='Sign up with email']");
 
 
     @Before
@@ -56,13 +56,12 @@ public class BasicTests {
 
     @Test
     public void testFillSimpleFormAndLogin() {
-        this.driver.get("https://toggl.com/track/");
         MainPage mainPage = new MainPage(this.driver);
         mainPage.usernameTextFill(emailBy, "fbauwiexqlzy@internetkeno.com");
         mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
         // usernameTogglerElement.sendKeys("fbauwiexqlzy@internetkeno.com");
-        mainPage.submitLogin(loginBy);
         System.out.println("Sent email and password details.");
+        mainPage.submitLogin(loginBy);
     }
 
     @Test
