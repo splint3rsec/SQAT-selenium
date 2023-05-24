@@ -15,11 +15,13 @@ class PageBase {
     // WebDriver objects
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected Integer timeout;
 
     // Important elements
-    public PageBase(WebDriver driver) {
+    public PageBase(WebDriver driver, Integer timeout) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+        this.timeout = timeout;
+        this.wait = new WebDriverWait(driver, timeout);
     }
 
     protected WebElement waitAndReturnElement(By locator) {

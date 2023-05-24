@@ -15,17 +15,23 @@ class MainPage extends PageBase {
 
     // By objects
     private By footerBy = By.xpath("//div[@class='css-39ullc-Bottom e15zdyoh3']/span");
+    protected String url = "https://www.toggl.com/track/";
 
     // Main Page
-    public MainPage(WebDriver driver) {
-        super(driver);
-        this.driver.get("https://www.toggl.com/track/");
+    public MainPage(WebDriver driver, String url) {
+        super(driver, 10);
+        this.url = url;
+        this.driver.get(url);
     }
 
     // Functions
     private WebElement waitVisibilityAndFindElement(By locator) {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return this.driver.findElement(locator);
+    }
+
+    public void changeTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 
     public String getFooterText() {
@@ -42,8 +48,13 @@ class MainPage extends PageBase {
         passwordTogglerElement.sendKeys(input);
     }
 
-    public void submitLogin(By loginLocator) {
-        WebElement loginTogglerElement = waitVisibilityAndFindElement(loginLocator);
-        loginTogglerElement.click();
+    public void fillTextBox(By inputLocator, String input) {
+        WebElement inputTogglerElement = waitVisibilityAndFindElement(inputLocator);
+        inputTogglerElement.sendKeys(input);
+    }
+
+    public void submitButton(By btnLocator) {
+        WebElement btnTogglerElement = waitVisibilityAndFindElement(btnLocator);
+        btnTogglerElement.click();
     }
 }
