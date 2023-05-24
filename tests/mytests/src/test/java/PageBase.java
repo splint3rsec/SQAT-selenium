@@ -12,10 +12,11 @@ import org.openqa.selenium.NoSuchElementException;
 
 
 class PageBase {
+    // WebDriver objects
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-
+    // Important elements
     public PageBase(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 10);
