@@ -20,14 +20,14 @@ import java.net.MalformedURLException;
 public class BasicTests {
     /*
     This class is for performing basic tests:
-        -Fill simple form and send (eg. Login) -> DONE
-        -Form sending with user -> in hold!
+        -Fill simple form and send (eg. Login)
+        -Form sending with user
         -Logout
         -Fill input (text,radio,check...)
         -Send a form
-        -Static Page test
-        -Multiple page test from array (easily extendable static page tests) -> DONE
-        -complex xpath (eg. //div//a[@href='asd']) -> DONE
+        -Static Page test -> DONE
+        -Multiple page test from array (easily extendable static page tests)
+        -complex xpath (eg. //div//a[@href='asd'])
         -Filling or reading textarea content
         -Filling or reading drop-down
         -Filling or reading Radio button
@@ -42,17 +42,17 @@ public class BasicTests {
      */
     public WebDriver driver;
     //Login details -> 3c3ad7cd02@fireboxmail.lol:y6GW6$Eo8Co6
-    private By emailBy = By.id("email");
-    private By passwordBy = By.id("password");
-    private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
-    private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
-    private By loadingScreenBy = By.className("loading snowball");
-    private By projectBy = By.xpath("//div[@class='css-15flw8s-ScrollContainer e1f220q512']//section[1]//ul[1]//a[1]");
-    private By createprojectBy = By.xpath("//button[@class='e1hlosco0 css-lih12m-StyledButton-button-PrimaryButton ehcbn3e1']");
-    private By textareaBy = By.xpath("//textarea[@id='message']");
-    private String mainURL = "https://toggl.com/track/";
-    private String loginURL = "https://toggl.com/track/login/";
-    private String contactURL = "https://toggl.com/track/contact/";
+    // private By emailBy = By.id("email");
+    // private By passwordBy = By.id("password");
+    // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
+    // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
+    // private By loadingScreenBy = By.className("loading snowball");
+    // private By projectBy = By.xpath("//div[@class='css-15flw8s-ScrollContainer e1f220q512']//section[1]//ul[1]//a[1]");
+    // private By createprojectBy = By.xpath("//button[@class='e1hlosco0 css-lih12m-StyledButton-button-PrimaryButton ehcbn3e1']");
+    // private By textareaBy = By.xpath("//textarea[@id='message']");
+    private String mainURL = "https://www.logitech.com/en-eu";
+    // private String loginURL = "https://toggl.com/track/login/";
+    // private String contactURL = "https://toggl.com/track/contact/";
 
     @Before
     public void setup() throws MalformedURLException  {
@@ -61,55 +61,55 @@ public class BasicTests {
         */
         ChromeOptions options = new ChromeOptions();
         driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
-        driver.get(loginURL);
+        driver.get(mainURL);
         driver.manage().window().maximize();
     }
 
-    @Test
-    public void testFillSimpleFormAndClickButton() {
-        /*
-         * This tests A simple form filling and click on a button
-        */
-        MainPage mainPage = new MainPage(driver, mainURL);
-        mainPage.usernameTextFill(emailBy, "fbauwiexqlzy@internetkeno.com");
-        mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
-        System.out.println("Sent email and password details.");
-        mainPage.submitButton(signupBy);
-    }
+    // @Test
+    // public void testFillSimpleFormAndClickButton() {
+    //     /*
+    //      * This tests A simple form filling and click on a button
+    //     */
+    //     MainPage mainPage = new MainPage(driver, mainURL);
+    //     mainPage.usernameTextFill(emailBy, "fbauwiexqlzy@internetkeno.com");
+    //     mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
+    //     System.out.println("Sent email and password details.");
+    //     mainPage.submitButton(signupBy);
+    // }
 
-    @Test
-    public void testLoginAndCreateProject() throws InterruptedException {
-        /*
-        * This logs in to our testing account and sends a form
-        */
-        MainPage mainPage = new MainPage(driver, loginURL);
-        mainPage.usernameTextFill(emailBy, "3c3ad7cd02@fireboxmail.lol");
-        mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
-        mainPage.submitButton(loginBy);
-    }
+    // @Test
+    // public void testLoginAndCreateProject() throws InterruptedException {
+    //     /*
+    //     * This logs in to our testing account and sends a form
+    //     */
+    //     MainPage mainPage = new MainPage(driver, loginURL);
+    //     mainPage.usernameTextFill(emailBy, "3c3ad7cd02@fireboxmail.lol");
+    //     mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
+    //     mainPage.submitButton(loginBy);
+    // }
 
     @Test
     public void testStaticPage() {
         /*
          * This tests whether a certain URL was opened or not, by checking the existence of the footer
         */
-        MainPage mainPage = new MainPage(driver, loginURL);
-        Assert.assertTrue(mainPage.getFooterText().contains("Toggl. All rights reserved."));
+        MainPage mainPage = new MainPage(driver, mainURL);
+        Assert.assertTrue(mainPage.getFooterText().contains("Logitech. All rights reserved"));
         String footer = mainPage.getFooterText();
         System.out.println(footer);
     }
 
-    @Test
-    public void testMultipleEntries() {
-        /*
-         * This tests multiple contact form entries by looping from an array of strings
-        */
-        String[] textInputs={"Hi Team","Sorry but I won't send this","ELTE IK"};
-        MainPage mainPage = new MainPage(driver, contactURL);
-        for(String inputString : textInputs) {
-            mainPage.fillTextBox(textareaBy, inputString+'\n');
-        }
-    }
+    // @Test
+    // public void testMultipleEntries() {
+    //     /*
+    //      * This tests multiple contact form entries by looping from an array of strings
+    //     */
+    //     String[] textInputs={"Hi Team","Sorry but I won't send this","ELTE IK"};
+    //     MainPage mainPage = new MainPage(driver, contactURL);
+    //     for(String inputString : textInputs) {
+    //         mainPage.fillTextBox(textareaBy, inputString+'\n');
+    //     }
+    // }
 
 
     @After

@@ -14,14 +14,13 @@ import org.openqa.selenium.NoSuchElementException;
 class MainPage extends PageBase {
 
     // By objects
-    private By footerBy = By.xpath("//div[@class='css-39ullc-Bottom e15zdyoh3']/span");
-    protected String url = "https://www.toggl.com/track/";
+    private By footerBy = By.xpath("//div[@class='copyright-ctn']");
+    protected String url = "https://www.logitech.com/en-eu";
 
     // Main Page
     public MainPage(WebDriver driver, String url) {
         super(driver, 10);
         this.url = url;
-        this.driver.get(url);
     }
 
     // Functions
@@ -38,23 +37,23 @@ class MainPage extends PageBase {
         return this.waitAndReturnElement(footerBy).getText();
     }
 
-    public void usernameTextFill(By usernameLocator, String input) {
-        WebElement usernameTogglerElement = waitVisibilityAndFindElement(usernameLocator);
-        usernameTogglerElement.sendKeys(input);
-    }
+    // public void usernameTextFill(By usernameLocator, String input) {
+    //     WebElement usernameTogglerElement = waitVisibilityAndFindElement(usernameLocator);
+    //     usernameTogglerElement.sendKeys(input);
+    // }
 
-    public void passwordTextFill(By passwordLocator, String input) {
-        WebElement passwordTogglerElement = waitVisibilityAndFindElement(passwordLocator);
-        passwordTogglerElement.sendKeys(input);
-    }
+    // public void passwordTextFill(By passwordLocator, String input) {
+    //     WebElement passwordTogglerElement = waitVisibilityAndFindElement(passwordLocator);
+    //     passwordTogglerElement.sendKeys(input);
+    // }
 
-    public void fillTextBox(By inputLocator, String input) {
-        WebElement inputTogglerElement = waitVisibilityAndFindElement(inputLocator);
-        inputTogglerElement.sendKeys(input);
-    }
+    // public void fillTextBox(By inputLocator, String input) {
+    //     WebElement inputTogglerElement = waitVisibilityAndFindElement(inputLocator);
+    //     inputTogglerElement.sendKeys(input);
+    // }
 
-    public void submitButton(By btnLocator) {
-        WebElement btnTogglerElement = waitVisibilityAndFindElement(btnLocator);
-        btnTogglerElement.click();
-    }
+    // public void submitButton(By btnLocator) {
+    //     WebElement btnTogglerElement = waitVisibilityAndFindElement(btnLocator);
+    //     btnTogglerElement.click();
+    // }
 }
