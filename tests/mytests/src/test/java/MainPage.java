@@ -18,7 +18,6 @@ import org.openqa.selenium.NoSuchElementException;
 class MainPage extends PageBase {
 
     // By objects
-    private By footerBy = By.xpath("//div[@class='copyright-ctn']");
     protected String url = "https://www.logitech.com/en-eu";
 
     // Main Page
@@ -38,8 +37,8 @@ class MainPage extends PageBase {
         this.setTimeout(timeout);
     }
 
-    public String getFooterText() {
-        return this.waitAndReturnElement(footerBy).getText();
+    public String getElementText(By element) {
+        return this.waitAndReturnElement(element).getText();
     }
 
     public void fillTextBox(By inputLocator, String input) {
