@@ -6,10 +6,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -49,6 +51,12 @@ class MainPage extends PageBase {
     public void clickButton(By btnLocator) {
         WebElement btnTogglerElement = waitVisibilityAndFindElement(btnLocator);
         btnTogglerElement.click();
+    }
+
+    public void selectOption(By selectLocator, String value) {
+        WebElement selectTogglerElement = waitVisibilityAndFindElement(selectLocator);
+        Select dropdown = new Select(selectTogglerElement);
+        dropdown.selectByValue(value);
     }
 
     // public String getTempEmail() throws MalformedURLException, InterruptedException {

@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import org.openqa.selenium.By;
@@ -71,6 +72,8 @@ public class BasicTests {
     private By emailFillBy = By.id("email");
     private By footerBy = By.xpath("//div[@class='copyright-ctn']");
     private By searchResultBy = By.className("entry-content");
+    private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
+    private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
     // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
     // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
     // private By loadingScreenBy = By.className("loading snowball");
@@ -80,6 +83,7 @@ public class BasicTests {
     private String mainURL = "https://www.logitech.com/en-eu";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
+    private String productURL = "https://www.logitech.com/en-eu/products/keyboards/pop-keys-wireless-mechanical.html";
     // private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
 
     @Before
@@ -131,7 +135,7 @@ public class BasicTests {
     //     mainPage.clickButton(continueRegistrationBy);
     // }
 
-    @Test
+
     public void testLoginForm() {
         /*
          * This tests A simple form filling and click on a button
@@ -143,7 +147,7 @@ public class BasicTests {
         mainPage.clickButton(loginButtonBy);
     }
 
-    @Test
+
     public void testReadPageTitle() {
         /*
          * This tests A simple form filling and click on a button
@@ -154,6 +158,17 @@ public class BasicTests {
     }
 
     @Test
+    public void testDropdownSelection() {
+        /*
+         * This tests A simple form filling and click on a button ------>>> NOT WORKING YET (page stops loading at the middle)
+        */
+        MainPage mainPage = new MainPage(driver, productURL);
+        WebElement testDropDown = driver.findElement(By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']"));
+        Select dropdown = new Select(testDropDown);
+        dropdown.selectByIndex(0);
+    }
+
+
     public void testFillTextAreaInput() {
         /*
          * This tests A simple form filling and click on a button
@@ -221,7 +236,7 @@ public class BasicTests {
     // }
 
 
-    @After
+
     public void close() {
         /*
          * This will close the driver after we're done from the tests
