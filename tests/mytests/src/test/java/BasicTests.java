@@ -144,6 +144,16 @@ public class BasicTests {
     }
 
     @Test
+    public void testReadPageTitle() {
+        /*
+         * This tests A simple form filling and click on a button
+        */
+        MainPage mainPage = new MainPage(driver, mainURL);
+        String title = driver.getTitle();
+        Assert.assertEquals(title, "Logitech Europe");
+    }
+
+    @Test
     public void testFillTextAreaInput() {
         /*
          * This tests A simple form filling and click on a button
