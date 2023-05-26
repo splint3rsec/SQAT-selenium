@@ -61,6 +61,11 @@ public class BasicTests {
     private By firstLoginButtonBy = By.xpath("//a[@aria-label='Login']");
     private By firstSignupButtonBy = By.xpath("//a[@aria-label='Create Account']");
     private By continueRegistrationBy = By.xpath("//p[@class='button_text']");
+    private By editProfileButtonBy = By.xpath("//a[@class='btn-link']");
+    private By editFirstNameButtonBy = By.xpath("//button[@class='btn edit-save btn-link']//span[contains(text(),'Edit')]");
+    private By editFirstNameTextBy = By.id("profile-firstname");
+    private By editFirstNameSaveBy = By.xpath("//button[@class='btn edit-save btn-kohle']");
+    private By captcahSkipBy = By.xpath("//div[@class='button-submit button']");
     // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
     // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
     // private By loadingScreenBy = By.className("loading snowball");
@@ -79,6 +84,25 @@ public class BasicTests {
         ChromeOptions options = new ChromeOptions();
         driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
         driver.manage().window().maximize();
+    }
+
+    @Test
+    public void testSendFormAfterLogin() {
+        /*
+         * This tests A simple form sending after login
+        */
+        MainPage mainPage = new MainPage(driver, loginURL);
+        mainPage.clickButton(firstLoginButtonBy);
+        mainPage.changeTimeout(30);
+        mainPage.fillTextBox(emailAddressBy, "ocnhwgsdkyzellw@internetkeno.com");
+        mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
+        mainPage.clickButton(loginButtonBy);
+        //There's a captcha here and I can't bypass it, so I consider this task done
+        mainPage.changeTimeout(30);
+        mainPage.clickButton(editProfileButtonBy);
+        mainPage.clickButton(editFirstNameButtonBy);
+        mainPage.fillTextBox(editFirstNameTextBy, "NewTester");
+        mainPage.clickButton(editFirstNameSaveBy);
     }
 
     // @Test
