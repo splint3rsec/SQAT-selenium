@@ -75,7 +75,7 @@ public class BasicTests {
     private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
     private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
     private By searchResultBy = By.className("entry-content");
-    private By logoutBy = By.className("btn-link component-logout");
+    private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
     // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
     // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
     // private By loadingScreenBy = By.className("loading snowball");
@@ -251,7 +251,7 @@ public class BasicTests {
     // }
 
 
-
+    @After
     public void close() {
         /*
          * This will close the driver after we're done from the tests
