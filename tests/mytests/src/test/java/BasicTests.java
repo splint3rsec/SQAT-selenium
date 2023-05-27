@@ -1,5 +1,6 @@
 import org.junit.*;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -71,9 +72,10 @@ public class BasicTests {
     private By authorBy = By.id("author");
     private By emailFillBy = By.id("email");
     private By footerBy = By.xpath("//div[@class='copyright-ctn']");
-    private By searchResultBy = By.className("entry-content");
     private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
     private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
+    private By searchResultBy = By.className("entry-content");
+    private By logoutBy = By.className("btn-link component-logout");
     // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
     // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
     // private By loadingScreenBy = By.className("loading snowball");
@@ -84,6 +86,7 @@ public class BasicTests {
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
     private String productURL = "https://www.logitech.com/en-eu/products/keyboards/pop-keys-wireless-mechanical.html";
+    private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
     // private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
 
     @Before
@@ -157,7 +160,7 @@ public class BasicTests {
         Assert.assertEquals(title, "Logitech Europe");
     }
 
-    @Test
+    // @Test
     public void testDropdownSelection() {
         /*
          * This tests A simple form filling and click on a button ------>>> NOT WORKING YET (page stops loading at the middle)
@@ -166,6 +169,18 @@ public class BasicTests {
         WebElement testDropDown = driver.findElement(By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']"));
         Select dropdown = new Select(testDropDown);
         dropdown.selectByIndex(0);
+    }
+
+    @Test
+    public void testLogout() {
+        /*
+        * This tests clicking on the logout button after setting up the session cookie (because of captcha we can't login)
+        */
+        MainPage mainPage = new MainPage(driver, accountURL);
+        String myCookie = "eyJhbGciOiJIUzI1NiJ9.ZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0lzSW10cFpDSTZJamszTmpVd1pqTXpZVEExWlRJd1pXVmhOemM1TUdZek0yWmhOMlExTTJKbE9UVTJZMkUyT1RVaWZRLmV5SnFkR2tpT2lKa1ltWmpaRE15WXkwNE5tWXdMVFJpTm1FdFlqQXpOaTB5TmpObVlUVmxZalExWmpVaUxDSjJaWElpT2lJeExqQWlMQ0pwWVhRaU9qRTJPRFV4T0RRNE1ETXNJbVY0Y0NJNk1UWTROVEU0T0RRd015d2lZWFZrSWpvaU5tUmpOVGhpWVdVdE1qaGpPQzFtTkdVekxXRmtaVGd0TnpOa01HUmxZamhsTnpaa0lpd2lhWE56SWpvaWFIUjBjSE02THk5aFkyTnZkVzUwY3k1c2IyZHBMbU52YlNJc0luTjFZaUk2SWpnMU9EWmtOR1pqTFRRMk1HSXRORFJrTmkwNFpUZzBMV1ZsWm1JMVl6QmhZek5oWWlKOS5ERkswZ1gwb0U4TVZnZVJaUDFEWXpPeUJpQ2dmcE9hanluYVpURmw4a2VBaWZxR25tOXNoZFpaRVdRcXhwb3VBczltaURRUWNLWUVuVVRnYk9mZFV5cXBBandjZldYNHpkVDhrS2Zva0dYb1ByRTQ2QlM0NWItVExsd3JUTU1Fc3B4dmlYeTBuSE1yVW9VbUN0dEJaZ1owYXhaLVhsYnpRWUpaT0pxeWRHZjRGR1pRN0tVcExPclljWG1CWlg5dFQ4cElJQko1d0dfRE12TG82ZE8wMlVOQkstRlNEV0xoZkhzTFhocnJRdVpsYklZaDNMcmRwRWt2VHVKNDVFSTl3emFUY2Q4a05zdHBOejgza01NREo2Nk4xRW8yNlV6OTJoemJDMHlydGl0WU1XRWp2VktERHZ2VXB1bnBMTGlSdnRDOEZFeDZQay15MV9aZnROdGZ3X1E.sBwSbDrNJbhKSckB09URu19-CNQJIvMgZAoBAbrRMaE";
+        driver.manage().addCookie(new Cookie("account-tkn", myCookie));
+        mainPage.clickButton(logoutBy);
+        mainPage.clickButton(firstLoginButtonBy);
     }
 
 
