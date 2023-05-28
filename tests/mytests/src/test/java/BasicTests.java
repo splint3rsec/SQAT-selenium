@@ -19,43 +19,22 @@ import java.net.MalformedURLException;
 public class BasicTests {
 
     public WebDriver driver;
-    private By firstNameBy = By.xpath("//input[@id='First name']");
     private By emailAddressBy = By.id("Email address");
     private By passwordBy = By.id("Password");
     private By loginButtonBy = By.className("button_text");
     private By languageIconBy = By.className("lang-code");
-    private By lastNameBy = By.xpath("//input[@id='Last name']");
-    private By signupEmailBy = By.xpath("//input[@id='Email address']");
-    private By successfulRegDescBy = By.className("We sent an email to your inbox. Please verify your email address so we know that it's really you!");
-    private By companyBy = By.xpath("//input[@id='Company']");
-    private By emailBy = By.xpath("//input[@id='Email']");
-    private By phoneBy = By.xpath("//input[@id='Phone']");
-    private By countryBy = By.xpath("//option[@value='Hungary']");
-    private By reasonBy = By.xpath("//span[normalize-space()='Conference Cameras']");
-    private By commentBoxBy = By.xpath("//input[@id='Person_Comments__c']");
-    private By privacyCheckboxBy = By.xpath("//input[@id='z-MKTDATA-OptIn']");
-    private By submitButtonBy = By.className("mktoButton");
-    private By signUpButtonBy = By.className("button_text");
     private By firstLoginButtonBy = By.xpath("//a[@aria-label='Login']");
-    private By firstSignupButtonBy = By.xpath("//a[@aria-label='Create Account']");
-    private By continueRegistrationBy = By.xpath("//p[@class='button_text']");
-    private By editProfileButtonBy = By.xpath("//a[@class='btn-link']");
     private By editFirstNameButtonBy = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/button[1]");
     private By editFirstNameTextBy = By.id("profile-firstname");
     private By editFirstNameSaveBy = By.xpath("//button[@class='btn edit-save btn-kohle']");
-    private By captcahSkipBy = By.xpath("//div[@class='button-submit button']");
     private By textAreaBy = By.id("comment");
     private By authorBy = By.id("author");
     private By emailFillBy = By.id("email");
     private By footerBy = By.xpath("//div[@class='copyright-ctn']");
     private By blogPostsBy = By.xpath("//a[normalize-space()='VIDEO COLLABORATION']");
-    private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
-    private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
-    private By searchResultBy = By.className("entry-content");
     private By searchIconBy = By.xpath("//button[@aria-label='Search']");
     private By searchInputBy = By.id("searchInput");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
-    private By buyNowBy = By.xpath("//div[@class='price-atc-cta size-small']/a[@class='btn-buy-cta js-atc-btn navBtn sec-nav-buy-cta smoothscroll-inited']");
     private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
     private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
     private By dropDownBy = By.xpath("//select[@id='YearNav']");
@@ -69,7 +48,6 @@ public class BasicTests {
     private String pressReleaseURL = "https://ir.logitech.com/press-releases/default.aspx";
     private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
-    private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
     private String productURL = "https://www.logitech.com/en-eu/products/mice/mx-master-3s.910-006559.html";
 
 
@@ -95,7 +73,7 @@ public class BasicTests {
         driver.manage().window().maximize();
     }
 
-    // @Test
+    @Test
     public void testSendFormAfterLogin() throws IOException, InterruptedException{
         /*
          * This tests A simple form sending after login
@@ -120,10 +98,10 @@ public class BasicTests {
         mainPage.clickButton(accountIconBy);
         Thread.sleep(5000);
         WebElement webElement = driver.findElement(accountUsernameBy);
-        String actualUsername = webElement.getText();
         Thread.sleep(5000);
+        String actualUsername = webElement.getText();
         System.out.println(actualUsername);
-        Assert.assertEquals(actualUsername, "HI, NEWTESTER");
+        Assert.assertEquals("HI, NEWTESTER", actualUsername);
 
     }
 
@@ -185,7 +163,7 @@ public class BasicTests {
         Assert.assertEquals(true, result);
     }
 
-    @Test
+    // @Test
     public void testRadio() throws IOException, InterruptedException{
         /*
          * This tests A simple form filling and click on a button
@@ -219,25 +197,6 @@ public class BasicTests {
         mainPage.fillTextBox(authorBy, "CAPTCHA DRIVING ME CRAZY");
         mainPage.clickButton(emailFillBy);
         mainPage.fillTextBox(emailFillBy, "CAPTCHA DRIVING ME CRAZY");
-    }
-
-    // @Test
-    public void testFillSimpleFormAndClickButton() throws InterruptedException, IOException {
-        /*
-         * This tests A simple form filling and click on a button
-        */
-        MainPage mainPage = new MainPage(driver, productFormURL);
-        Thread.sleep(10000);
-        mainPage.fillTextBox(firstNameBy, "Optimistic");
-        mainPage.fillTextBox(lastNameBy, "Whale");
-        mainPage.fillTextBox(companyBy, "The Testers");
-        mainPage.fillTextBox(emailBy, "super@tester.com");
-        mainPage.fillTextBox(phoneBy, "5555555555");
-        mainPage.clickButton(countryBy);
-        mainPage.clickButton(reasonBy);
-        mainPage.fillTextBox(commentBoxBy, "Hello team\nThis is a selenium test.\nGoodbye!");
-        mainPage.clickButton(privacyCheckboxBy);
-        mainPage.clickButton(submitButtonBy);
     }
 
     // @Test
