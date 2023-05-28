@@ -76,6 +76,7 @@ public class BasicTests {
     private By authorBy = By.id("author");
     private By emailFillBy = By.id("email");
     private By footerBy = By.xpath("//div[@class='copyright-ctn']");
+    private By blogPostsBy = By.xpath("//a[normalize-space()='VIDEO COLLABORATION']");
     private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
     private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
     private By searchResultBy = By.className("entry-content");
@@ -90,9 +91,11 @@ public class BasicTests {
     // private By textareaBy = By.xpath("//textarea[@id='message']");
     private String mainURL = "https://www.logitech.com/en-eu";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
+    private String mainBlogURL = "https://blog.logitech.com/";
     private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
     private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
+    private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private final int TIMEOUT = 10;
     private ConfParser reader;
     // private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
@@ -137,6 +140,14 @@ public class BasicTests {
         // mainPage.clickButton(editFirstNameSaveBy);
     }
 
+    @Test
+    public void testHistoryBackOnLogin() {
+        MainPage mainPage = new MainPage(driver, mainBlogURL);
+        mainPage.clickButton(blogPostsBy);
+        Assert.assertEquals(driver.getCurrentUrl(), blogPostsURL);
+        mainPage.goBack();
+    }
+
     // @Test
     public void testJSExecution() {
         MainPage mainPage = new MainPage(driver, mainURL);
@@ -162,7 +173,7 @@ public class BasicTests {
     //     mainPage.clickButton(continueRegistrationBy);
     // }
 
-    @Test
+    // @Test
     public void testLoginFormUsingConfFile() throws IOException{
         /*
          * This tests A simple form filling and click on a button

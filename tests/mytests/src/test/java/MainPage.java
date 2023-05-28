@@ -49,6 +49,11 @@ class MainPage extends PageBase {
         btnTogglerElement.click();
     }
 
+    public void goBack() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.history.back();");
+    }
+
     public void selectOption(By selectLocator, String value) {
         WebElement selectTogglerElement = waitVisibilityAndFindElement(selectLocator);
         Select dropdown = new Select(selectTogglerElement);
