@@ -143,24 +143,6 @@ public class BasicTests {
     }
 
     // @Test
-    // public void testSignUp() throws MalformedURLException, InterruptedException {
-    //     /*
-    //      * This tests signing up a user and confirm his/her email
-    //     */
-    //     MainPage mainPage = new MainPage(driver, loginURL);
-    //     String temporaryEmail = mainPage.getTempEmail();
-    //     mainPage.clickButton(firstSignupButtonBy);
-    //     mainPage.fillTextBox(firstNameBy, "Super");
-    //     mainPage.fillTextBox(lastNameBy, "Tester");
-    //     mainPage.fillTextBox(signupEmailBy, temporaryEmail);
-    //     mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
-    //     mainPage.clickButton(signUpButtonBy);
-    //     Assert.assertTrue(successfulRegDescBy.getText().contains("We sent an email to your inbox."));
-    //     mainPage.confirmEmail();
-    //     mainPage.clickButton(continueRegistrationBy);
-    // }
-
-    // @Test
     public void testLoginFormUsingConfFile() throws IOException{
         /*
          * This tests A simple form filling and click on a button

@@ -56,31 +56,4 @@ class MainPage extends PageBase {
         dropdown.selectByValue(value);
     }
 
-    // public String getTempEmail() throws MalformedURLException, InterruptedException {
-    //     ChromeOptions options = new ChromeOptions();
-    //     WebDriver mail_driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
-    //     mail_driver.manage().window().maximize();
-    //     MainPage tempMail = new MainPage(mail_driver, "https://mail.tm/en/");
-    //     Thread.sleep(5000);
-    //     mail_driver.findElement(By.xpath("//button[@class=' css-47sehv']/span")).click();
-    //     WebDriverWait waitForTempMail = new WebDriverWait(mail_driver, 120);
-    //     waitForTempMail.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='DontUseWEBuseAPI']")));
-    //     String mailResult = mail_driver.findElement(By.id("DontUseWEBuseAPI")).getAttribute("value");
-    //     Thread.sleep(5000);
-    //     mail_driver.quit();
-    //     return mailResult;
-    // }
-
-    // public void confirmEmail() throws MalformedURLException, InterruptedException {
-    //     ChromeOptions options = new ChromeOptions();
-    //     WebDriver mail_driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
-    //     mail_driver.manage().window().maximize();
-    //     MainPage tempMail = new MainPage(mail_driver, "https://mail.tm/en/");
-    //     mail_driver.findElement(By.xpath("(//div[@class='dark:text-indigo-400 text-indigo-600 text-sm font-medium leading-5 truncate'])[1]")).click();
-    //     Thread.sleep(5000);
-    //     WebElement iframe = mail_driver.findElement(By.tagName("iframe"));
-    //     mail_driver.switchTo().frame(iframe);
-    //     mail_driver.findElement(By.xpath("//a[normalize-space()='Confirm Email']")).click();
-    //     mail_driver.quit();
-    // }
 }
