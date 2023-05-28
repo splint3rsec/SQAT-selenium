@@ -64,16 +64,14 @@ public class BasicTests {
     private By buyNowBy = By.xpath("//div[@class='price-atc-cta size-small']/a[@class='btn-buy-cta js-atc-btn navBtn sec-nav-buy-cta smoothscroll-inited']");
     private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
     private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
-    private By dropDownBy = By.xpath("//select[@id='_ctrl0_ctl48_ddlReminderPeriod']");
-    private By eventEmailBy = By.xpath("//input[@id='_ctrl0_ctl48_txtEmail']");
-    private By eventSaveButtonBy = By.xpath("//input[@id='_ctrl0_ctl48_btnSaveReminder']");
+    private By dropDownBy = By.xpath("//select[@id='YearNav']");
 
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String mainBlogURL = "https://blog.logitech.com/";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
-    private String eventURL = "https://ir.logitech.com/events-and-presentations/event-details/2023/FY23-Form-10-K-deadline/default.aspx";
+    private String pressReleaseURL = "https://ir.logitech.com/press-releases/default.aspx";
     private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
@@ -196,15 +194,16 @@ public class BasicTests {
         /*
          * This tests A simple form filling and click on a button
         */
-        MainPage mainPage = new MainPage(driver, eventURL);
-        Thread.sleep(10000);
+        MainPage mainPage = new MainPage(driver, pressReleaseURL);
+        Thread.sleep(5000);
         WebElement testDropDown = driver.findElement(dropDownBy);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
         Select dropdown = new Select(testDropDown);
-        Thread.sleep(10000);
-        dropdown.selectByValue("72");
-        mainPage.fillTextBox(eventEmailBy, "super@tester.com");
-        mainPage.clickButton(eventSaveButtonBy);
+        Thread.sleep(5000);
+        dropdown.selectByValue("2020");
+        Thread.sleep(5000);
+        Boolean result = driver.getPageSource().contains("Logitech Named to the Dow Jones Sustainability Index Europe");
+        Assert.assertEquals(true, result);
     }
 
     // @Test
