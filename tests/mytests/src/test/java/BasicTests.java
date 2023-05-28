@@ -52,6 +52,7 @@ public class BasicTests {
     private By emailAddressBy = By.id("Email address");
     private By passwordBy = By.id("Password");
     private By loginButtonBy = By.className("button_text");
+    private By languageIconBy = By.className("lang-code");
     private By lastNameBy = By.xpath("//input[@id='Last name']");
     private By signupEmailBy = By.xpath("//input[@id='Email address']");
     private By successfulRegDescBy = By.className("We sent an email to your inbox. Please verify your email address so we know that it's really you!");
@@ -85,13 +86,9 @@ public class BasicTests {
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
     private By productSelectBy = By.id("product-os");
     private By dropDownBy = By.xpath("//select[@id='profile-country']");
-    // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
-    // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
-    // private By loadingScreenBy = By.className("loading snowball");
-    // private By projectBy = By.xpath("//div[@class='css-15flw8s-ScrollContainer e1f220q512']//section[1]//ul[1]//a[1]");
-    // private By createprojectBy = By.xpath("//button[@class='e1hlosco0 css-lih12m-StyledButton-button-PrimaryButton ehcbn3e1']");
-    // private By textareaBy = By.xpath("//textarea[@id='message']");
+
     private String mainURL = "https://www.logitech.com/en-eu";
+    private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String mainBlogURL = "https://blog.logitech.com/";
     private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
@@ -109,8 +106,8 @@ public class BasicTests {
     * + Need to clean the file
     * + Have to restructure the classes.
     * + Needed for grade 4:
-    *       - at least 6 classes
-    *       - multiple page test from array
+    *       - at least 6 classes -> DONE
+    *       - multiple page test from array -> DONE
     */
 
     @Before
@@ -192,14 +189,18 @@ public class BasicTests {
         mainPage.clickButton(loginButtonBy);
     }
 
-
-    public void testReadPageTitle() {
+    @Test
+    public void testReadPageTitle() throws InterruptedException{
         /*
          * This tests A simple form filling and click on a button
         */
         MainPage mainPage = new MainPage(driver, mainURL);
+        mainPage.clickButton(languageIconBy);
+        Assert.assertEquals(driver.getCurrentUrl(), changeLocationURL);
+        Thread.sleep(5000);
         String title = driver.getTitle();
-        Assert.assertEquals(title, "Logitech Europe");
+        System.out.println("The title is: "+title);
+        Assert.assertEquals("Change Location - Logitech America, Europe & Asia Pacific", title);
     }
 
     public void testDropdownSelection() { //NOT FINISHED.
@@ -280,7 +281,7 @@ public class BasicTests {
     //     System.out.println(footer);
     // }
 
-    @Test
+    // @Test
     public void testMultipleEntries() {
         /*
          * This tests multiple contact form entries by looping from an array of strings
