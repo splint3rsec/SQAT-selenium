@@ -61,17 +61,19 @@ public class BasicTests {
     private By searchIconBy = By.xpath("//button[@aria-label='Search']");
     private By searchInputBy = By.id("searchInput");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
-    private By productSelectBy = By.id("product-os");
+    private By buyNowBy = By.xpath("//div[@class='price-atc-cta size-small']/a[@class='btn-buy-cta js-atc-btn navBtn sec-nav-buy-cta smoothscroll-inited']");
     private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
     private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
-    private By dropDownBy = By.xpath("//select[@id='profile-country']");
+    private By dropDownBy = By.xpath("//select[@id='_ctrl0_ctl48_ddlReminderPeriod']");
+    private By eventEmailBy = By.xpath("//input[@id='_ctrl0_ctl48_txtEmail']");
+    private By eventSaveButtonBy = By.xpath("//input[@id='_ctrl0_ctl48_btnSaveReminder']");
 
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String mainBlogURL = "https://blog.logitech.com/";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
-    private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
+    private String eventURL = "https://ir.logitech.com/events-and-presentations/event-details/2023/FY23-Form-10-K-deadline/default.aspx";
     private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
@@ -84,6 +86,7 @@ public class BasicTests {
     * + Have to restructure the classes.
     * + Form sending with user. -> DONE
     * + Remove unnecessary By's
+    * + Make dropdown test -> DONE
     */
 
     @Before
@@ -188,16 +191,20 @@ public class BasicTests {
         Assert.assertEquals("Change Location - Logitech America, Europe & Asia Pacific", title);
     }
 
-    // @Test
-    public void testDropdownSelection() throws IOException{ //NOT FINISHED.
+    @Test
+    public void testDropdownSelection() throws IOException, InterruptedException{
         /*
-         * This tests A simple form filling and click on a button ------>>> NOT WORKING YET (page stops loading at the middle)
+         * This tests A simple form filling and click on a button
         */
-        MainPage mainPage = new MainPage(driver, supportURL);
-        WebElement testDropDown = driver.findElement(productSelectBy);
+        MainPage mainPage = new MainPage(driver, eventURL);
+        Thread.sleep(10000);
+        WebElement testDropDown = driver.findElement(dropDownBy);
+        Thread.sleep(10000);
         Select dropdown = new Select(testDropDown);
-        dropdown.selectByValue("OS X");
-
+        Thread.sleep(10000);
+        dropdown.selectByValue("72");
+        mainPage.fillTextBox(eventEmailBy, "super@tester.com");
+        mainPage.clickButton(eventSaveButtonBy);
     }
 
     // @Test
