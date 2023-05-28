@@ -10,11 +10,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.JavascriptExecutor;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import java.util.*;
 import java.time.Duration;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import java.net.URL;
@@ -78,7 +80,7 @@ public class BasicTests {
     private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
     private By searchResultBy = By.className("entry-content");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
-    private By editCountryBy = By.xpath("//div[@class='component-cta-button']/button[@class='btn edit-save btn-link']");
+    private By productSelectBy = By.id("product-os");
     private By dropDownBy = By.xpath("//select[@id='profile-country']");
     // private By signupBy = By.xpath("//button[normalize-space()='Sign up with email']");
     // private By loginBy = By.xpath("//button[@class='css-xcv9z6-Button-Primary ehz4ycd11']");
@@ -89,9 +91,10 @@ public class BasicTests {
     private String mainURL = "https://www.logitech.com/en-eu";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
-    private String accountInfoURL = "https://www.logitech.com/en-us/my-account/account-information.html";
+    private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
     private final int TIMEOUT = 10;
+    private ConfParser reader;
     // private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
 
 
@@ -135,6 +138,13 @@ public class BasicTests {
     }
 
     // @Test
+    public void testJSExecution() {
+        MainPage mainPage = new MainPage(driver, mainURL);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("alert('Javascript execution from selenium!');");
+    }
+
+    // @Test
     // public void testSignUp() throws MalformedURLException, InterruptedException {
     //     /*
     //      * This tests signing up a user and confirm his/her email
@@ -152,15 +162,17 @@ public class BasicTests {
     //     mainPage.clickButton(continueRegistrationBy);
     // }
 
-
-    public void testLoginForm() {
+    @Test
+    public void testLoginFormUsingConfFile() throws IOException{
         /*
          * This tests A simple form filling and click on a button
         */
         MainPage mainPage = new MainPage(driver, loginURL);
+        reader = new ConfParser();
+        Properties props = reader.readConfigurationFile();
         mainPage.clickButton(firstLoginButtonBy);
-        mainPage.fillTextBox(emailAddressBy, "super@tester.com");
-        mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
+        mainPage.fillTextBox(emailAddressBy, props.getProperty("email"));
+        mainPage.fillTextBox(passwordBy, props.getProperty("password"));
         mainPage.clickButton(loginButtonBy);
     }
 
@@ -174,21 +186,15 @@ public class BasicTests {
         Assert.assertEquals(title, "Logitech Europe");
     }
 
-    @Test
-    public void testDropdownSelection() {
+    public void testDropdownSelection() { //NOT FINISHED.
         /*
          * This tests A simple form filling and click on a button ------>>> NOT WORKING YET (page stops loading at the middle)
         */
-        MainPage mainPage = new MainPage(driver, accountInfoURL);
-        String myCookie = "eyJhbGciOiJIUzI1NiJ9.ZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0lzSW10cFpDSTZJamszTmpVd1pqTXpZVEExWlRJd1pXVmhOemM1TUdZek0yWmhOMlExTTJKbE9UVTJZMkUyT1RVaWZRLmV5SnFkR2tpT2lKa1ltWmpaRE15WXkwNE5tWXdMVFJpTm1FdFlqQXpOaTB5TmpObVlUVmxZalExWmpVaUxDSjJaWElpT2lJeExqQWlMQ0pwWVhRaU9qRTJPRFV4T0RRNE1ETXNJbVY0Y0NJNk1UWTROVEU0T0RRd015d2lZWFZrSWpvaU5tUmpOVGhpWVdVdE1qaGpPQzFtTkdVekxXRmtaVGd0TnpOa01HUmxZamhsTnpaa0lpd2lhWE56SWpvaWFIUjBjSE02THk5aFkyTnZkVzUwY3k1c2IyZHBMbU52YlNJc0luTjFZaUk2SWpnMU9EWmtOR1pqTFRRMk1HSXRORFJrTmkwNFpUZzBMV1ZsWm1JMVl6QmhZek5oWWlKOS5ERkswZ1gwb0U4TVZnZVJaUDFEWXpPeUJpQ2dmcE9hanluYVpURmw4a2VBaWZxR25tOXNoZFpaRVdRcXhwb3VBczltaURRUWNLWUVuVVRnYk9mZFV5cXBBandjZldYNHpkVDhrS2Zva0dYb1ByRTQ2QlM0NWItVExsd3JUTU1Fc3B4dmlYeTBuSE1yVW9VbUN0dEJaZ1owYXhaLVhsYnpRWUpaT0pxeWRHZjRGR1pRN0tVcExPclljWG1CWlg5dFQ4cElJQko1d0dfRE12TG82ZE8wMlVOQkstRlNEV0xoZkhzTFhocnJRdVpsYklZaDNMcmRwRWt2VHVKNDVFSTl3emFUY2Q4a05zdHBOejgza01NREo2Nk4xRW8yNlV6OTJoemJDMHlydGl0WU1XRWp2VktERHZ2VXB1bnBMTGlSdnRDOEZFeDZQay15MV9aZnROdGZ3X1E.sBwSbDrNJbhKSckB09URu19-CNQJIvMgZAoBAbrRMaE";
-        driver.manage().addCookie(new Cookie("account-tkn", myCookie));
-        mainPage.changeTimeout(40);
-        mainPage.clickButton(editCountryBy);
-        WebElement testDropDown = driver.findElement(dropDownBy);
+        MainPage mainPage = new MainPage(driver, supportURL);
+        WebElement testDropDown = driver.findElement(productSelectBy);
         Select dropdown = new Select(testDropDown);
-        mainPage.changeTimeout(40);
-        dropdown.selectByIndex(4);
-        mainPage.changeTimeout(40);
+        dropdown.selectByValue("OS X");
+
     }
 
     // @Test

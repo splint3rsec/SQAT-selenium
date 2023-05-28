@@ -19,13 +19,9 @@ import org.openqa.selenium.NoSuchElementException;
 
 class MainPage extends PageBase {
 
-    // By objects
-    protected String url = "https://www.logitech.com/en-eu";
-
     // Main Page
     public MainPage(WebDriver driver, String url) {
         super(driver, 20);
-        this.url = url;
         this.driver.get(url);
     }
 
