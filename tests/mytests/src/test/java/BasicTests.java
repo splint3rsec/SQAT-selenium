@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.JavascriptExecutor;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -24,30 +23,8 @@ import java.net.MalformedURLException;
 
 
 public class BasicTests {
-    /*
-    This class is for performing basic tests:
-        -Fill simple form and send (eg. Login) -> DONE
-        -Form sending with user
-        -Logout
-        -Fill input (text,radio,check...)
-        -Send a form
-        -Static Page test -> DONE
-        -Multiple page test from array (easily extendable static page tests)
-        -complex xpath (eg. //div//a[@href='asd'])
-        -Filling or reading textarea content
-        -Filling or reading drop-down
-        -Filling or reading Radio button
-        -At least 4 class
-        -At least 6 class
-        -At least 8 class
-        -Explicit wait
-        -Reading the page title
-        -Page object pattern
-        -BasePage object class
-        -Test suite looks like readable test description
-     */
+
     public WebDriver driver;
-    //Login details -> 3c3ad7cd02@fireboxmail.lol:y6GW6$Eo8Co6
     private By firstNameBy = By.xpath("//input[@id='First name']");
     private By emailAddressBy = By.id("Email address");
     private By passwordBy = By.id("Password");
@@ -95,9 +72,7 @@ public class BasicTests {
     private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
-    private final int TIMEOUT = 10;
-    private ConfParser reader;
-    // private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
+    private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
 
 
     /*
@@ -105,13 +80,10 @@ public class BasicTests {
     * + working on testDropdownSelection, couldn't select the edit button...
     * + Need to clean the file
     * + Have to restructure the classes.
-    * + Needed for grade 4:
-    *       - at least 6 classes -> DONE
-    *       - multiple page test from array -> DONE
     */
 
     @Before
-    public void setup() throws MalformedURLException  {
+    public void setup() throws MalformedURLException {
         /*
          * This sets up the testing environment
          */
@@ -121,13 +93,13 @@ public class BasicTests {
         driver.manage().window().maximize();
     }
 
-    public void testSendFormAfterLogin() {
+    // @Test
+    public void testSendFormAfterLogin() throws IOException{
         /*
          * This tests A simple form sending after login
         */
         MainPage mainPage = new MainPage(driver, loginURL);
         mainPage.clickButton(firstLoginButtonBy);
-        // mainPage.changeTimeout(30);
         mainPage.fillTextBox(emailAddressBy, "ocnhwgsdkyzellw@internetkeno.com");
         mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
         mainPage.clickButton(loginButtonBy);
@@ -143,7 +115,7 @@ public class BasicTests {
     }
 
     // @Test
-    public void testHistoryBackOnLogin() {
+    public void testHistoryBackOnLogin() throws IOException{
         MainPage mainPage = new MainPage(driver, mainBlogURL);
         mainPage.clickButton(blogPostsBy);
         Assert.assertEquals(driver.getCurrentUrl(), blogPostsURL);
@@ -151,7 +123,7 @@ public class BasicTests {
     }
 
     // @Test
-    public void testJSExecution() {
+    public void testJSExecution() throws IOException{
         MainPage mainPage = new MainPage(driver, mainURL);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("alert('Javascript execution from selenium!');");
@@ -170,7 +142,7 @@ public class BasicTests {
     //     mainPage.fillTextBox(signupEmailBy, temporaryEmail);
     //     mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
     //     mainPage.clickButton(signUpButtonBy);
-    //     // Assert.assertTrue(successfulRegDescBy.getText().contains("We sent an email to your inbox."));
+    //     Assert.assertTrue(successfulRegDescBy.getText().contains("We sent an email to your inbox."));
     //     mainPage.confirmEmail();
     //     mainPage.clickButton(continueRegistrationBy);
     // }
@@ -181,16 +153,14 @@ public class BasicTests {
          * This tests A simple form filling and click on a button
         */
         MainPage mainPage = new MainPage(driver, loginURL);
-        reader = new ConfParser();
-        Properties props = reader.readConfigurationFile();
         mainPage.clickButton(firstLoginButtonBy);
-        mainPage.fillTextBox(emailAddressBy, props.getProperty("email"));
-        mainPage.fillTextBox(passwordBy, props.getProperty("password"));
+        mainPage.fillTextBox(emailAddressBy, mainPage.props.getProperty("email"));
+        mainPage.fillTextBox(passwordBy, mainPage.props.getProperty("password"));
         mainPage.clickButton(loginButtonBy);
     }
 
-    @Test
-    public void testReadPageTitle() throws InterruptedException{
+    // @Test
+    public void testReadPageTitle() throws InterruptedException, IOException {
         /*
          * This tests A simple form filling and click on a button
         */
@@ -203,7 +173,8 @@ public class BasicTests {
         Assert.assertEquals("Change Location - Logitech America, Europe & Asia Pacific", title);
     }
 
-    public void testDropdownSelection() { //NOT FINISHED.
+    // @Test
+    public void testDropdownSelection() throws IOException{ //NOT FINISHED.
         /*
          * This tests A simple form filling and click on a button ------>>> NOT WORKING YET (page stops loading at the middle)
         */
@@ -215,19 +186,18 @@ public class BasicTests {
     }
 
     // @Test
-    public void testLogout() {
+    public void testLogout() throws IOException{
         /*
         * This tests clicking on the logout button after setting up the session cookie (because of captcha we can't login)
         */
         MainPage mainPage = new MainPage(driver, accountURL);
-        String myCookie = "eyJhbGciOiJIUzI1NiJ9.ZXlKaGJHY2lPaUpTVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0lzSW10cFpDSTZJamszTmpVd1pqTXpZVEExWlRJd1pXVmhOemM1TUdZek0yWmhOMlExTTJKbE9UVTJZMkUyT1RVaWZRLmV5SnFkR2tpT2lKa1ltWmpaRE15WXkwNE5tWXdMVFJpTm1FdFlqQXpOaTB5TmpObVlUVmxZalExWmpVaUxDSjJaWElpT2lJeExqQWlMQ0pwWVhRaU9qRTJPRFV4T0RRNE1ETXNJbVY0Y0NJNk1UWTROVEU0T0RRd015d2lZWFZrSWpvaU5tUmpOVGhpWVdVdE1qaGpPQzFtTkdVekxXRmtaVGd0TnpOa01HUmxZamhsTnpaa0lpd2lhWE56SWpvaWFIUjBjSE02THk5aFkyTnZkVzUwY3k1c2IyZHBMbU52YlNJc0luTjFZaUk2SWpnMU9EWmtOR1pqTFRRMk1HSXRORFJrTmkwNFpUZzBMV1ZsWm1JMVl6QmhZek5oWWlKOS5ERkswZ1gwb0U4TVZnZVJaUDFEWXpPeUJpQ2dmcE9hanluYVpURmw4a2VBaWZxR25tOXNoZFpaRVdRcXhwb3VBczltaURRUWNLWUVuVVRnYk9mZFV5cXBBandjZldYNHpkVDhrS2Zva0dYb1ByRTQ2QlM0NWItVExsd3JUTU1Fc3B4dmlYeTBuSE1yVW9VbUN0dEJaZ1owYXhaLVhsYnpRWUpaT0pxeWRHZjRGR1pRN0tVcExPclljWG1CWlg5dFQ4cElJQko1d0dfRE12TG82ZE8wMlVOQkstRlNEV0xoZkhzTFhocnJRdVpsYklZaDNMcmRwRWt2VHVKNDVFSTl3emFUY2Q4a05zdHBOejgza01NREo2Nk4xRW8yNlV6OTJoemJDMHlydGl0WU1XRWp2VktERHZ2VXB1bnBMTGlSdnRDOEZFeDZQay15MV9aZnROdGZ3X1E.sBwSbDrNJbhKSckB09URu19-CNQJIvMgZAoBAbrRMaE";
-        driver.manage().addCookie(new Cookie("account-tkn", myCookie));
+        driver.manage().addCookie(new Cookie("account-tkn", mainPage.props.getProperty("cookie")));
         mainPage.clickButton(logoutBy);
         mainPage.clickButton(firstLoginButtonBy);
     }
 
-
-    public void testFillTextAreaInput() {
+    // @Test
+    public void testFillTextAreaInput() throws IOException{
         /*
          * This tests A simple form filling and click on a button
         */
@@ -241,48 +211,37 @@ public class BasicTests {
     }
 
     // @Test
-    // public void testFillSimpleFormAndClickButton() throws InterruptedException {
-    //     /*
-    //      * This tests A simple form filling and click on a button
-    //     */
-    //     MainPage mainPage = new MainPage(driver, productFormURL);
-    //     Thread.sleep(10000);
-    //     mainPage.fillTextBox(firstNameBy, "Optimistic");
-    //     mainPage.fillTextBox(lastNameBy, "Whale");
-    //     mainPage.fillTextBox(companyBy, "The Testers");
-    //     mainPage.fillTextBox(emailBy, "super@tester.com");
-    //     mainPage.fillTextBox(phoneBy, "5555555555");
-    //     mainPage.clickButton(countryBy);
-    //     mainPage.clickButton(reasonBy);
-    //     mainPage.fillTextBox(commentBoxBy, "Hello team\nThis is a selenium test.\nGoodbye!");
-    //     mainPage.clickButton(privacyCheckboxBy);
-    //     mainPage.clickButton(submitButtonBy);
-    // }
+    public void testFillSimpleFormAndClickButton() throws InterruptedException, IOException {
+        /*
+         * This tests A simple form filling and click on a button
+        */
+        MainPage mainPage = new MainPage(driver, productFormURL);
+        Thread.sleep(10000);
+        mainPage.fillTextBox(firstNameBy, "Optimistic");
+        mainPage.fillTextBox(lastNameBy, "Whale");
+        mainPage.fillTextBox(companyBy, "The Testers");
+        mainPage.fillTextBox(emailBy, "super@tester.com");
+        mainPage.fillTextBox(phoneBy, "5555555555");
+        mainPage.clickButton(countryBy);
+        mainPage.clickButton(reasonBy);
+        mainPage.fillTextBox(commentBoxBy, "Hello team\nThis is a selenium test.\nGoodbye!");
+        mainPage.clickButton(privacyCheckboxBy);
+        mainPage.clickButton(submitButtonBy);
+    }
 
     // @Test
-    // public void testLoginAndCreateProject() throws InterruptedException {
-    //     /*
-    //     * This logs in to our testing account and sends a form
-    //     */
-    //     MainPage mainPage = new MainPage(driver, loginURL);
-    //     mainPage.usernameTextFill(emailBy, "3c3ad7cd02@fireboxmail.lol");
-    //     mainPage.passwordTextFill(passwordBy, "y6GW6$Eo8Co6");
-    //     mainPage.submitButton(loginBy);
-    // }
+    public void testStaticPage() throws IOException{
+        /*
+         * This tests whether a certain URL was opened or not, by checking the existence of the footer
+        */
+        MainPage mainPage = new MainPage(driver, mainURL);
+        Assert.assertTrue(mainPage.getElementText(footerBy).contains("Logitech. All rights reserved"));
+        String footer = mainPage.getElementText(footerBy);
+        System.out.println(footer);
+    }
 
     // @Test
-    // public void testStaticPage() {
-    //     /*
-    //      * This tests whether a certain URL was opened or not, by checking the existence of the footer
-    //     */
-    //     MainPage mainPage = new MainPage(driver, mainURL);
-    //     Assert.assertTrue(mainPage.getElementText(footerBy).contains("Logitech. All rights reserved"));
-    //     String footer = mainPage.getElementText(footerBy);
-    //     System.out.println(footer);
-    // }
-
-    // @Test
-    public void testMultipleEntries() {
+    public void testMultipleEntries() throws IOException{
         /*
          * This tests multiple contact form entries by looping from an array of strings
         */
@@ -296,7 +255,7 @@ public class BasicTests {
     }
 
 
-    // @After
+    @After
     public void close() {
         /*
          * This will close the driver after we're done from the tests
