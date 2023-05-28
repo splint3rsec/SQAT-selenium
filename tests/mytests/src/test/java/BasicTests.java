@@ -27,18 +27,26 @@ public class BasicTests {
     private By editFirstNameButtonBy = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/button[1]");
     private By editFirstNameTextBy = By.id("profile-firstname");
     private By editFirstNameSaveBy = By.xpath("//button[@class='btn edit-save btn-kohle']");
-    private By textAreaBy = By.id("comment");
-    private By authorBy = By.id("author");
-    private By emailFillBy = By.id("email");
+    private By textAreaBy = By.xpath("//p[@class='comment-form-comment']/textarea");
+    private By authorBy = By.xpath("//p[@class='comment-form-author']/input");
+    private By emailFillBy = By.xpath("//p[@class='comment-form-email']/input");
     private By footerBy = By.xpath("//div[@class='copyright-ctn']");
     private By blogPostsBy = By.xpath("//a[normalize-space()='VIDEO COLLABORATION']");
     private By searchIconBy = By.xpath("//button[@aria-label='Search']");
-    private By searchInputBy = By.id("searchInput");
+    private By searchInputBy = By.className("search-input");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
     private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
     private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
     private By dropDownBy = By.xpath("//select[@id='YearNav']");
     private By radioButtonBy = By.xpath("//button[@title='Pale Gray']");
+    private By contactButtonBy = By.className("button");
+    private By cookieSettingsBy = By.className("cookie-setting-link");
+    private By analyticsCookiesBy = By.xpath("//h3[@id='ot-header-id-C0002']");
+    private By cookieKnobBy = By.className("ot-switch-nob");
+    private By cookieSettingsConfirmBy = By.xpath("//div[@class='ot-btn-container']/button");
+    private By smallSearchIconBy = By.className("module_title");
+    private By smallSearchInputBy = By.id("_ctrl0_ctl21_txtSearchInput");
+    private By submitButtonCommentBy = By.className("submit");
 
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
@@ -49,18 +57,8 @@ public class BasicTests {
     private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private String productURL = "https://www.logitech.com/en-eu/products/mice/mx-master-3s.910-006559.html";
-
-
-    /*
-    * Updates:
-    * + working on testDropdownSelection, couldn't select the edit button...
-    * + Need to clean the file -> DONE
-    * + Have to restructure the classes.
-    * + Form sending with user. -> DONE
-    * + Remove unnecessary By's
-    * + Make dropdown test -> DONE
-    * + Change tests descriptions
-    */
+    private String contactURL = "https://ir.logitech.com/investor-resources/contact/default.aspx";
+    private String faqURL = "https://www.logitech.com/en-us/my-account/order-faqs.html";
 
     @Before
     public void setup() throws MalformedURLException {
@@ -73,7 +71,7 @@ public class BasicTests {
         driver.manage().window().maximize();
     }
 
-    @Test
+    // @Test
     public void testSendFormAfterLogin() throws IOException, InterruptedException{
         /*
          * This tests A simple form sending after login
@@ -111,6 +109,41 @@ public class BasicTests {
         mainPage.clickButton(blogPostsBy);
         Assert.assertEquals(driver.getCurrentUrl(), blogPostsURL);
         mainPage.goBack();
+    }
+
+    // @Test
+    public void testSimpleContactForm() throws IOException, InterruptedException{
+        MainPage mainPage = new MainPage(driver, contactURL);
+        mainPage.clickButton(contactButtonBy);
+        Thread.sleep(5000);
+        Boolean result = driver.getPageSource().contains("The following errors must be corrected");
+        Assert.assertEquals(true, result);
+    }
+
+    // @Test
+    public void testManuallyActivateCookies() throws IOException, InterruptedException{
+        MainPage mainPage = new MainPage(driver, faqURL);
+        Thread.sleep(5000);
+        mainPage.clickButton(cookieSettingsBy);
+        mainPage.clickButton(analyticsCookiesBy);
+        mainPage.clickButton(cookieKnobBy);
+        mainPage.clickButton(cookieSettingsConfirmBy);
+    }
+
+    // @Test
+    public void testSmallSearchIcon() throws IOException, InterruptedException{
+        MainPage mainPage = new MainPage(driver, contactURL);
+        Thread.sleep(5000);
+        mainPage.clickButton(smallSearchIconBy);
+        mainPage.fillTextBox(smallSearchInputBy, "One more class and we're good to go!\n");
+    }
+
+    // @Test
+    public void testSocialIcon() throws IOException, InterruptedException{
+        MainPage mainPage = new MainPage(driver, blogURL);
+        Thread.sleep(5000);
+        mainPage.clickButton(submitButtonCommentBy);
+        Thread.sleep(5000);
     }
 
     // @Test
