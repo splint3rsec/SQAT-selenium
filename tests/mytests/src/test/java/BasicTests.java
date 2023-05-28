@@ -46,7 +46,7 @@ public class BasicTests {
     private By firstSignupButtonBy = By.xpath("//a[@aria-label='Create Account']");
     private By continueRegistrationBy = By.xpath("//p[@class='button_text']");
     private By editProfileButtonBy = By.xpath("//a[@class='btn-link']");
-    private By editFirstNameButtonBy = By.xpath("//button[@class='btn edit-save btn-link']//span[contains(text(),'Edit')]");
+    private By editFirstNameButtonBy = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/button[1]");
     private By editFirstNameTextBy = By.id("profile-firstname");
     private By editFirstNameSaveBy = By.xpath("//button[@class='btn edit-save btn-kohle']");
     private By captcahSkipBy = By.xpath("//div[@class='button-submit button']");
@@ -62,15 +62,17 @@ public class BasicTests {
     private By searchInputBy = By.id("searchInput");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
     private By productSelectBy = By.id("product-os");
+    private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
+    private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
     private By dropDownBy = By.xpath("//select[@id='profile-country']");
 
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
     private String mainBlogURL = "https://blog.logitech.com/";
-    private String loginURL = "https://www.logitech.com/en-eu/my-account.html";
-    private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
     private String accountURL = "https://www.logitech.com/en-eu/my-account.html";
+    private String supportURL = "https://prosupport.logi.com/hc/en-us/articles/360040190133";
+    private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
 
@@ -78,8 +80,10 @@ public class BasicTests {
     /*
     * Updates:
     * + working on testDropdownSelection, couldn't select the edit button...
-    * + Need to clean the file
+    * + Need to clean the file -> DONE
     * + Have to restructure the classes.
+    * + Form sending with user. -> DONE
+    * + Remove unnecessary By's
     */
 
     @Before
@@ -94,24 +98,35 @@ public class BasicTests {
     }
 
     // @Test
-    public void testSendFormAfterLogin() throws IOException{
+    public void testSendFormAfterLogin() throws IOException, InterruptedException{
         /*
          * This tests A simple form sending after login
         */
-        MainPage mainPage = new MainPage(driver, loginURL);
-        mainPage.clickButton(firstLoginButtonBy);
-        mainPage.fillTextBox(emailAddressBy, "ocnhwgsdkyzellw@internetkeno.com");
-        mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
-        mainPage.clickButton(loginButtonBy);
-        WebElement iframe = driver.findElement(By.tagName("iframe"));
-        driver.switchTo().frame(iframe);
-        mainPage.clickButton(captcahSkipBy);
-        //There's a captcha here and I can't bypass it, so I consider this task done
-        // mainPage.changeTimeout(30);
+        MainPage mainPage = new MainPage(driver, accountInfoURL);
+        // Due to the captcha restriction, I will inject the cookie instead of logging in normally!
+        // mainPage.clickButton(firstLoginButtonBy);
+        // mainPage.fillTextBox(emailAddressBy, "ocnhwgsdkyzellw@internetkeno.com");
+        // mainPage.fillTextBox(passwordBy, "y6GW6$Eo8Co6");
+        // mainPage.clickButton(loginButtonBy);
+        // WebElement iframe = driver.findElement(By.tagName("iframe"));
+        // driver.switchTo().frame(iframe);
+        // mainPage.clickButton(captcahSkipBy);
         // mainPage.clickButton(editProfileButtonBy);
-        // mainPage.clickButton(editFirstNameButtonBy);
-        // mainPage.fillTextBox(editFirstNameTextBy, "NewTester");
-        // mainPage.clickButton(editFirstNameSaveBy);
+        driver.manage().addCookie(new Cookie("account-tkn", mainPage.props.getProperty("cookie")));
+        Thread.sleep(5000);
+        mainPage.clickButton(editFirstNameButtonBy);
+        driver.manage().addCookie(new Cookie("account-tkn", mainPage.props.getProperty("cookie")));
+        mainPage.fillTextBox(editFirstNameTextBy, "NewTester");
+        driver.manage().addCookie(new Cookie("account-tkn", mainPage.props.getProperty("cookie")));
+        mainPage.clickButton(editFirstNameSaveBy);
+        mainPage.clickButton(accountIconBy);
+        Thread.sleep(5000);
+        WebElement webElement = driver.findElement(accountUsernameBy);
+        String actualUsername = webElement.getText();
+        Thread.sleep(5000);
+        System.out.println(actualUsername);
+        Assert.assertEquals(actualUsername, "HI, NEWTESTER");
+
     }
 
     // @Test
@@ -152,7 +167,7 @@ public class BasicTests {
         /*
          * This tests A simple form filling and click on a button
         */
-        MainPage mainPage = new MainPage(driver, loginURL);
+        MainPage mainPage = new MainPage(driver, accountURL);
         mainPage.clickButton(firstLoginButtonBy);
         mainPage.fillTextBox(emailAddressBy, mainPage.props.getProperty("email"));
         mainPage.fillTextBox(passwordBy, mainPage.props.getProperty("password"));
