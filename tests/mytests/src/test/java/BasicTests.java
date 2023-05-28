@@ -139,7 +139,7 @@ public class BasicTests {
     }
 
     // @Test
-    public void testSocialIcon() throws IOException, InterruptedException{
+    public void testSubmitEmptyComment() throws IOException, InterruptedException{
         MainPage mainPage = new MainPage(driver, blogURL);
         Thread.sleep(5000);
         mainPage.clickButton(submitButtonCommentBy);
