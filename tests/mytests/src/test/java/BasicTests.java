@@ -71,10 +71,10 @@ public class BasicTests {
         driver.manage().window().maximize();
     }
 
-    // @Test
+    @Test
     public void testSendFormAfterLogin() throws IOException, InterruptedException{
         /*
-         * This tests A simple form sending after login
+         * This tests A simple form sending after login, change the username and check whether it was changed or not.
         */
         MainPage mainPage = new MainPage(driver, accountInfoURL);
         // Due to the captcha restriction, I will inject the cookie instead of logging in normally!
@@ -103,16 +103,22 @@ public class BasicTests {
 
     }
 
-    // @Test
+    @Test
     public void testHistoryBackOnLogin() throws IOException{
+        /*
+         * This tests going back in browser history and asserts it.
+        */
         MainPage mainPage = new MainPage(driver, mainBlogURL);
         mainPage.clickButton(blogPostsBy);
         Assert.assertEquals(driver.getCurrentUrl(), blogPostsURL);
         mainPage.goBack();
     }
 
-    // @Test
+    @Test
     public void testSimpleContactForm() throws IOException, InterruptedException{
+        /*
+         * This tests what happens when we submit a contact form without filling it
+        */
         MainPage mainPage = new MainPage(driver, contactURL);
         mainPage.clickButton(contactButtonBy);
         Thread.sleep(5000);
@@ -120,8 +126,11 @@ public class BasicTests {
         Assert.assertEquals(true, result);
     }
 
-    // @Test
+    @Test
     public void testManuallyActivateCookies() throws IOException, InterruptedException{
+        /*
+         * This tests manually activating cookies choice from the propmpt
+        */
         MainPage mainPage = new MainPage(driver, faqURL);
         Thread.sleep(5000);
         mainPage.clickButton(cookieSettingsBy);
@@ -130,33 +139,43 @@ public class BasicTests {
         mainPage.clickButton(cookieSettingsConfirmBy);
     }
 
-    // @Test
+    @Test
     public void testSmallSearchIcon() throws IOException, InterruptedException{
+        /*
+         * This tests a different search functionality
+        */
         MainPage mainPage = new MainPage(driver, contactURL);
         Thread.sleep(5000);
         mainPage.clickButton(smallSearchIconBy);
         mainPage.fillTextBox(smallSearchInputBy, "One more class and we're good to go!\n");
+        Thread.sleep(5000);
     }
 
-    // @Test
+    @Test
     public void testSubmitEmptyComment() throws IOException, InterruptedException{
+        /*
+         * This tests clicking on the submit button without filling the comment on the blogpost
+        */
         MainPage mainPage = new MainPage(driver, blogURL);
         Thread.sleep(5000);
         mainPage.clickButton(submitButtonCommentBy);
         Thread.sleep(5000);
     }
 
-    // @Test
+    @Test
     public void testJSExecution() throws IOException{
+        /*
+         * This pops up an alert box using javascript executor
+        */
         MainPage mainPage = new MainPage(driver, mainURL);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("alert('Javascript execution from selenium!');");
     }
 
-    // @Test
+    @Test
     public void testLoginFormUsingConfFile() throws IOException{
         /*
-         * This tests A simple form filling and click on a button
+         * This tests A simple form filling using variables from a configuration file
         */
         MainPage mainPage = new MainPage(driver, accountURL);
         mainPage.clickButton(firstLoginButtonBy);
@@ -165,10 +184,10 @@ public class BasicTests {
         mainPage.clickButton(loginButtonBy);
     }
 
-    // @Test
+    @Test
     public void testReadPageTitle() throws InterruptedException, IOException {
         /*
-         * This tests A simple form filling and click on a button
+         * This tests reading the page title and asserting the currentURL
         */
         MainPage mainPage = new MainPage(driver, mainURL);
         mainPage.clickButton(languageIconBy);
@@ -179,10 +198,10 @@ public class BasicTests {
         Assert.assertEquals("Change Location - Logitech America, Europe & Asia Pacific", title);
     }
 
-    // @Test
+    @Test
     public void testDropdownSelection() throws IOException, InterruptedException{
         /*
-         * This tests A simple form filling and click on a button
+         * This tests changing the dropdown and checking whether it was changed or not
         */
         MainPage mainPage = new MainPage(driver, pressReleaseURL);
         Thread.sleep(5000);
@@ -196,10 +215,10 @@ public class BasicTests {
         Assert.assertEquals(true, result);
     }
 
-    // @Test
+    @Test
     public void testRadio() throws IOException, InterruptedException{
         /*
-         * This tests A simple form filling and click on a button
+         * This tests changing the value of a radio button
         */
         MainPage mainPage = new MainPage(driver, productURL);
         Thread.sleep(5000);
@@ -207,10 +226,10 @@ public class BasicTests {
         Thread.sleep(5000);
     }
 
-    // @Test
+    @Test
     public void testLogout() throws IOException{
         /*
-        * This tests clicking on the logout button after setting up the session cookie (because of captcha we can't login)
+        * This tests logs out the client from the website, using cookie injection (Can't login because of captacha)
         */
         MainPage mainPage = new MainPage(driver, accountURL);
         driver.manage().addCookie(new Cookie("account-tkn", mainPage.props.getProperty("cookie")));
@@ -218,10 +237,10 @@ public class BasicTests {
         mainPage.clickButton(firstLoginButtonBy);
     }
 
-    // @Test
+    @Test
     public void testFillTextAreaInput() throws IOException{
         /*
-         * This tests A simple form filling and click on a button
+         * This tests A simple textarea filling
         */
         MainPage mainPage = new MainPage(driver, blogURL);
         mainPage.clickButton(textAreaBy);
@@ -232,10 +251,10 @@ public class BasicTests {
         mainPage.fillTextBox(emailFillBy, "CAPTCHA DRIVING ME CRAZY");
     }
 
-    // @Test
+    @Test
     public void testStaticPage() throws IOException{
         /*
-         * This tests whether a certain URL was opened or not, by checking the existence of the footer
+         * This tests the footer's copyright value
         */
         MainPage mainPage = new MainPage(driver, mainURL);
         Assert.assertTrue(mainPage.getElementText(footerBy).contains("Logitech. All rights reserved"));
@@ -243,10 +262,10 @@ public class BasicTests {
         System.out.println(footer);
     }
 
-    // @Test
+    @Test
     public void testMultipleEntries() throws IOException{
         /*
-         * This tests multiple contact form entries by looping from an array of strings
+         * This tests looping through an array of strings and inserts them on the search bar.
         */
         String[] textInputs={"First typing test","Please give me a 5","Hello world"};
         MainPage mainPage = new MainPage(driver, accountURL);
