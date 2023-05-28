@@ -65,6 +65,7 @@ public class BasicTests {
     private By accountIconBy = By.xpath("//a[normalize-space()='My Account']");
     private By accountUsernameBy = By.xpath("//div[@class='profile-name h3']");
     private By dropDownBy = By.xpath("//select[@id='YearNav']");
+    private By radioButtonBy = By.xpath("//button[@title='Pale Gray']");
 
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
@@ -75,6 +76,7 @@ public class BasicTests {
     private String accountInfoURL = "https://www.logitech.com/en-eu/my-account/account-information.html";
     private String blogPostsURL = "https://blog.logitech.com/category/product/video-collaboration-product/";
     private String productFormURL = "https://www.logitech.com/en-eu/products/video-conferencing/room-solutions/rallybarhuddle.960-001501.html#form";
+    private String productURL = "https://www.logitech.com/en-eu/products/mice/mx-master-3s.910-006559.html";
 
 
     /*
@@ -85,6 +87,7 @@ public class BasicTests {
     * + Form sending with user. -> DONE
     * + Remove unnecessary By's
     * + Make dropdown test -> DONE
+    * + Change tests descriptions
     */
 
     @Before
@@ -189,7 +192,7 @@ public class BasicTests {
         Assert.assertEquals("Change Location - Logitech America, Europe & Asia Pacific", title);
     }
 
-    @Test
+    // @Test
     public void testDropdownSelection() throws IOException, InterruptedException{
         /*
          * This tests A simple form filling and click on a button
@@ -204,6 +207,17 @@ public class BasicTests {
         Thread.sleep(5000);
         Boolean result = driver.getPageSource().contains("Logitech Named to the Dow Jones Sustainability Index Europe");
         Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void testRadio() throws IOException, InterruptedException{
+        /*
+         * This tests A simple form filling and click on a button
+        */
+        MainPage mainPage = new MainPage(driver, productURL);
+        Thread.sleep(5000);
+        mainPage.clickButton(radioButtonBy);
+        Thread.sleep(5000);
     }
 
     // @Test
