@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 
 class MainPage extends PageBase {
 
+    //Confparser for variables reading
     ConfParser reader = new ConfParser();
     Properties props = reader.readConfigurationFile();
 
@@ -21,7 +22,7 @@ class MainPage extends PageBase {
 
     }
 
-    // Functions
+    // Helper Functions
     private WebElement waitVisibilityAndFindElement(By locator) {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return this.driver.findElement(locator);

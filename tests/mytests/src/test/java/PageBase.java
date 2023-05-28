@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 
 
 class PageBase {
+
     // WebDriver objects
     protected WebDriver driver;
     protected WebDriverWait wait;
@@ -28,11 +29,6 @@ class PageBase {
 
     protected void setTimeout(Integer x) {
         this.driver.manage().timeouts().implicitlyWait(x, TimeUnit.SECONDS);
-    }
-
-    public String getBodyText() {
-        WebElement bodyElement = this.waitAndReturnElement(By.tagName("body"));
-        return bodyElement.getText();
     }
 
 }

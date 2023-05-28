@@ -18,7 +18,10 @@ import java.net.MalformedURLException;
 
 public class BasicTests {
 
+    // Driver declaration
     public WebDriver driver;
+
+    // Necessary By objects for the tests
     private By emailAddressBy = By.id("Email address");
     private By passwordBy = By.id("Password");
     private By loginButtonBy = By.className("button_text");
@@ -48,6 +51,7 @@ public class BasicTests {
     private By smallSearchInputBy = By.id("_ctrl0_ctl21_txtSearchInput");
     private By submitButtonCommentBy = By.className("submit");
 
+    // Links declaration
     private String mainURL = "https://www.logitech.com/en-eu";
     private String changeLocationURL = "https://www.logitech.com/en-eu/change-location.html";
     private String blogURL = "https://blog.logitech.com/2023/05/26/infocomm-2023-empowering-flexible-work/";
