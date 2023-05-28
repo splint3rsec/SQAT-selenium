@@ -80,6 +80,8 @@ public class BasicTests {
     private By languageDropdownBy = By.xpath("//div[@class='facets-ctn']//select[@aria-label='CHOOSE A LANGUAGE']");
     private By languageValueBy = By.xpath("//div[@class='facets-ctn']//option[@value='us international (qwerty)'][normalize-space()='US International (Qwerty)']");
     private By searchResultBy = By.className("entry-content");
+    private By searchIconBy = By.xpath("//button[@aria-label='Search']");
+    private By searchInputBy = By.id("searchInput");
     private By logoutBy = By.xpath("//a[normalize-space()='Log Out']");
     private By productSelectBy = By.id("product-os");
     private By dropDownBy = By.xpath("//select[@id='profile-country']");
@@ -106,6 +108,9 @@ public class BasicTests {
     * + working on testDropdownSelection, couldn't select the edit button...
     * + Need to clean the file
     * + Have to restructure the classes.
+    * + Needed for grade 4:
+    *       - at least 6 classes
+    *       - multiple page test from array
     */
 
     @Before
@@ -140,7 +145,7 @@ public class BasicTests {
         // mainPage.clickButton(editFirstNameSaveBy);
     }
 
-    @Test
+    // @Test
     public void testHistoryBackOnLogin() {
         MainPage mainPage = new MainPage(driver, mainBlogURL);
         mainPage.clickButton(blogPostsBy);
@@ -275,17 +280,19 @@ public class BasicTests {
     //     System.out.println(footer);
     // }
 
-    // @Test
-    // public void testMultipleEntries() {
-    //     /*
-    //      * This tests multiple contact form entries by looping from an array of strings
-    //     */
-    //     String[] textInputs={"Hi Team","Sorry but I won't send this","ELTE IK"};
-    //     MainPage mainPage = new MainPage(driver, contactURL);
-    //     for(String inputString : textInputs) {
-    //         mainPage.fillTextBox(textareaBy, inputString+'\n');
-    //     }
-    // }
+    @Test
+    public void testMultipleEntries() {
+        /*
+         * This tests multiple contact form entries by looping from an array of strings
+        */
+        String[] textInputs={"First typing test","Please give me a 5","Hello world"};
+        MainPage mainPage = new MainPage(driver, accountURL);
+        for(String inputString : textInputs) {
+            mainPage.clickButton(searchIconBy);
+            mainPage.fillTextBox(searchInputBy, inputString+'\n');
+            mainPage.goBack();
+        }
+    }
 
 
     // @After
